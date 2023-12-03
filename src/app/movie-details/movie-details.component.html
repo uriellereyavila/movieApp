@@ -1,0 +1,56 @@
+<div class="w-100 movie-details-page" *ngIf="movieDetails$ | async as movieDetails">
+    <div class="movie-cover mb-4">
+        <img class="w-100" [src]="movieDetails.cover" style="height: 400px; object-fit: cover; object-position: top;">
+    </div>
+    <div class="movie-header mb-5">
+        <div class="d-flex flex-wrap gap-4 container">
+            <div class="image-container">
+                <img [src]="getMovieImage(movieDetails.image)">
+            </div>
+            <div class="inline-header">
+                <mat-chip-listbox class="mb-3">
+                    <mat-chip *ngFor="let genre of movieDetails.genre">
+                        <span>{{ genre }}</span>
+                    </mat-chip>
+                </mat-chip-listbox>
+                <h1 class="title mb-1">{{ movieDetails.title }}</h1>
+                <!-- <p class="sub-text mb-1">{{ movieDetails.genre.join(' | ') }}</p> -->
+                <div class="d-flex flex flex-row justify-content-start">
+                    <h5 class="sub-text small-text mb-2 d-flex align-items-center">
+                        <mat-icon class="star-rate">star</mat-icon> {{ (movieDetails.rating | oneDecimalPlace) }}
+                        <mat-divider class="mx-1" vertical="true">|</mat-divider>
+                        <mat-icon>schedule</mat-icon> {{ movieDetails.duration }}
+                        <mat-divider class="mx-1" vertical="true">|</mat-divider>
+                        <mat-icon>event</mat-icon> {{ movieDetails.releasedDate }}
+                    </h5>
+                    | <span></span>
+                </div>
+                <p class="description">{{ movieDetails.description }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="container movie-body mb-5">
+        <mat-card class="mb-3 mat-elevation-z8">
+            <mat-card-content>
+                <div class="d-flex flex-row justify-content-between w-100 align-items-center">
+                    <h4 class="text-bold mb-0">Watch now or later?</h4>
+                    <button (click)="addToWatchList()" mat-raised-button color="primary" *ngIf="!isMovieWatchList()">
+                        <mat-icon>add</mat-icon>
+                        Add to watchlist
+                    </button>
+                    <button mat-button color="accent" *ngIf="isMovieWatchList()" (click)="removeWatchList();">
+                        <mat-icon>delete</mat-icon>
+                        Remove to watchlist
+                    </button>
+                </div>
+            </mat-card-content>
+        </mat-card>
+        <h1>Trailer | <span class="sub-text small-text">{{ movieDetails.title }}</span></h1>
+        <iframe class="w-100 mb-3" [src]="movieDetails.trailerLink | safe" frameborder="0">
+        </iframe>
+    </div>
+    <div class="container other-movies">
+        <h1>You may also like</h1>
+        <app-thumbnail-list *ngIf="otherMovies$ | async as otherMovies" [movies]="otherMovies"></app-thumbnail-list>
+    </div>
+</div>

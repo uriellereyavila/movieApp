@@ -1,0 +1,61 @@
+<div class="no-data w-100 text-center d-flex flex-column align-items-center justify-content-center" *ngIf="movies.length === 0; else content">
+    <h1 class="text-center">No data found</h1>
+    <a mat-raised-button 
+        color="primary" 
+        [routerLink]="['/']" >
+        Browse Movies
+    </a>
+</div>
+<ng-template #content>
+    <div *ngIf="viewType ===  ViewType.GRID; else list">
+        <div class="row">
+            <div class="col-md-3 col-sm-6 mb-3" *ngFor="let movie of movies">
+                <app-thumbnail [movie]="movie"></app-thumbnail>
+            </div>
+        </div>
+    </div>
+    
+    <ng-template #list>
+        <ul class="list ps-0">
+            <li class="list-item mb-4" *ngFor="let movie of movies">
+                <mat-card>
+                    <mat-card-content class="d-flex flex-row gap-3 jsutify-content-start">
+                        <img class="list-ietm-img" [routerLink]="['/' + movie.movieId + '/details']"
+                            [style.cursor]="'pointer'" [src]="getMovieImg(movie.image)" [alt]="movie.title">
+                        <div class="mat-card-texts w-100">
+                            <a class="w-100 title" [routerLink]="['/' + movie.movieId + '/details']">
+                                {{ movie.title }}
+                            </a>
+                            <h5 class="sub-text d-flex align-items-center mb-0">
+                                <mat-icon class="star-rate">star</mat-icon>
+                                {{ movie.rating | oneDecimalPlace }}
+                            </h5>
+                            <h5 class="sub-text d-flex align-items-center mb-0">
+                                <mat-icon>timer</mat-icon>
+                                {{ movie.duration }} | {{ movie.genre.join(' | ') }}
+                            </h5>
+                            <div class="buttons">
+                                <a mat-button color="accent" [style.textDecoration]="'none'">
+                                    Trailer
+                                </a>
+                                <a [style.textDecoration]="'none'"
+                                    [routerLink]="['/' + movie.movieId + '/details']"  
+                                    mat-button color="accent">
+                                    View details
+                                </a>
+                            </div>
+                        </div>
+                        <div class="actions">
+                            <button color="accent" 
+                                mat-icon-button 
+                                matTooltip="Remove from watchlist"
+                                (click)="removeWatchList(movie.movieId)">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+            </li>
+        </ul>
+    </ng-template>
+</ng-template>

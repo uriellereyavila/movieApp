@@ -1,0 +1,37 @@
+<div class="container movie-list-page">
+    <header>
+        <h1 class="text-bold">Movies</h1>
+        <p class="sub-text">Movies move us like nothing else can, whether they’re scary, funny, dramatic, romantic or
+            anywhere
+            in-between. So many titles, so much to experience.</p>
+    </header>
+    <div class="d-flex justify-content-end align-items-center gap-2">
+        <mat-button-toggle-group class="mb-3" name="View Type" [value]="viewType" (valueChange)="viewType = $event">
+            <mat-button-toggle [value]="ViewType.GRID" matTooltip="Grid view">
+                <mat-icon>grid_view</mat-icon>
+            </mat-button-toggle>
+            <mat-button-toggle [value]="ViewType.LIST" matTooltip="List view">
+                <mat-icon>list</mat-icon>
+            </mat-button-toggle>
+        </mat-button-toggle-group>
+        <h4 matSubHeader>Sort by</h4>
+        <mat-form-field [appearance]="'fill'">
+            <mat-select [value]="sort.property" (valueChange)="onChangeProperty($event)">
+                <mat-option *ngFor="let enum of Sort | keyvalue" [value]="enum.value">
+                    {{ enum.value }}
+                </mat-option>
+            </mat-select>
+            <button mat-icon-button matSuffix color="accent" (click)="$event.stopPropagation(); toggleSortDirection()">
+                <mat-icon>{{ sort.direction === SortDirection.ASCENDING ? 'arrow_upward' : 'arrow_downward'
+                    }}</mat-icon>
+            </button>
+        </mat-form-field>
+    </div>
+    <ng-template #loading>
+        <div class="w-100">
+            <mat-spinner class="m-auto"></mat-spinner>
+        </div>
+    </ng-template>
+    <app-thumbnail-list [viewType]="viewType" (onClickAddToWatchlist)="addToWatchlist()" *ngIf="movies$ | async as movies; else loading"
+        [movies]="movies"></app-thumbnail-list>
+</div>

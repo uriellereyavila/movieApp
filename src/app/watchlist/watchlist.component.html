@@ -1,0 +1,12 @@
+<div class="container">
+    <header class="mb-4">
+        <h1 class="text-bold">Watchlist</h1>
+        <p class="sub-text">Enhance your movie-watching adventure with the 'Movies' app's watchlist feature – where
+            every film enthusiast's dream collection comes to life.</p>
+    </header>
+    <app-thumbnail-list 
+        [viewType]="ViewType.LIST" 
+        *ngIf="watchlist$ | async as watchlist" 
+        [movies]="watchlist"
+        (onRemovedWatchList)="removeWatchList()"></app-thumbnail-list>
+</div>

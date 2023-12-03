@@ -1,0 +1,10 @@
+<mat-toolbar color="primary" class="w-100 d-flex">
+    <a [routerLink]="['/']">
+        <mat-icon>movies</mat-icon>
+        <span>&nbsp; Movies</span>
+    </a>
+    <span class="divider"></span>
+    <a mat-icon-button matTooltip="My watchlist" [routerLink]="['/watchlist']">
+        <mat-icon>bookmark</mat-icon>
+    </a>
+</mat-toolbar>

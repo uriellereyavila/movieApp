@@ -1,0 +1,43 @@
+<mat-card 
+    class="thumbnail mat-elevation-z2 h-100">
+    <img [routerLink]="['/' + movie.movieId + '/details']"
+        [style.cursor]="'pointer'" 
+        mat-card-image 
+        [src]="getMovieImg(movie.image)" 
+        [alt]="movie.title">
+    <mat-card-header class="d-flex w-100">
+        <mat-card-subtitle class="d-flex align-items-center">
+            <mat-icon class="star-rate">star</mat-icon>
+            {{ movie.rating | oneDecimalPlace }}
+        </mat-card-subtitle>
+        <mat-card-title class="w-100">
+            <a class="w-100" [routerLink]="['/' + movie.movieId + '/details']">
+                {{ movie.title }}
+            </a>
+        </mat-card-title>
+    </mat-card-header>
+    <mat-card-actions class="d-flex flex-column justify-self-end">
+        <button mat-raised-button class="w-100 mb-1" color="primary" *ngIf="!isMovieWatchList(movie.movieId)" (click)="addToWatchList(movie.movieId)">
+            <mat-icon>add</mat-icon>
+            &nbsp;Add to watchlist
+        </button>
+        <button mat-raised-button disabled class="w-100 mb-1" color="accent" *ngIf="isMovieWatchList(movie.movieId)">
+            &nbsp;On my watchlist
+        </button>
+        <div class="w-100 d-flex flex-row align-items-center justify-content-between gap-2">
+            <a 
+                class="w-100"
+                [routerLink]="['/' + movie.movieId + '/details']" 
+                mat-button color="accent">
+                <mat-icon>play_arrow</mat-icon>
+                Trailer
+            </a>
+            <a 
+                [routerLink]="['/' + movie.movieId + '/details']" 
+                mat-icon-button color="accent"
+                matTooltip="View details">
+                <mat-icon>info</mat-icon>
+            </a>
+        </div>
+    </mat-card-actions>
+</mat-card>
